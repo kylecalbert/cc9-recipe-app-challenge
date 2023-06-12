@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { AuthContextProvider } from './context/AuthContext';
 import { createBrowserRouter, createRoutesFromElements, Route,RouterProvider, Outlet } from 'react-router-dom';
@@ -9,6 +8,10 @@ import Home from './components/Home';
 
 
 function App() {
+
+  const APP_ID = '6792d8f2';
+  const APP_KEY = '2a44e00a924467ce710d1e6f28e9b96'
+  const exampleReq = ``
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
