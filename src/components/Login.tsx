@@ -22,8 +22,8 @@ function Login() {
         Welcome to our Recipe App
       </Typography>
 
-      {user?.displayName ? (
-        <Button variant="contained" onClick={handleGoogleSignOut}>
+      {user?.displayName ? (        ///user has data, show log out button because the user is signed in
+        <Button variant="contained" onClick={handleGoogleSignOut}> 
           Log Out
         </Button>
       ) : (

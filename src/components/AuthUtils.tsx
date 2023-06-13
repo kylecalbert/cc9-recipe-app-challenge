@@ -7,6 +7,7 @@ export function useAuthentication() {
   const authContext = UserAuth();
   const { googleSignIn, user, logOut } = authContext;
 
+///if a user object is returned, instantly navigate to the home page
   useEffect(() => {
     if (user) {
       navigate('/Home');

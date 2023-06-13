@@ -5,12 +5,13 @@ import { auth } from "../firebase";
 interface AuthContextProviderProps {
   children: ReactNode;
 }
-
+///auth context will be expecting these props
 interface AuthContextType {
   googleSignIn: () => void;
   logOut: () => void;
   user: AppUser | null;
 }
+
 
 const AuthContext = createContext<AuthContextType>({
   googleSignIn: () => {},
@@ -18,34 +19,42 @@ const AuthContext = createContext<AuthContextType>({
   user: null,
 });
 
+///this is used to define the values the usestate will expect to have 
+///the reason this is needed is because it prevents less code errors and saves developers time
 interface AppUser {
   email: string | null;
   displayName: string | null;
 }
 
+//setting up sign in with google functionality
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
-  const [user, setUser] = useState<AppUser | null>(null);
+  const [user, setUser] = useState<AppUser | null>(null);  ///expects data object with two string values...or null..
 
   const logOut = () => {
     signOut(auth);
   };
 
+
+  //if user object is returned, update the current user...
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => { 
+      setUser(currentUser);       
     });
     return () => {
       unsubscribe();
     };
   }, []);
 
+  ///setting up google sign in functionality
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider);
+    signInWithPopup(auth, provider);  ///when user clicks sign in a pop up will appear
   };
 
+  ///once everything is set up, alll the values or funcitons that are needed will need to be passed into here
+  ///we will need the google sign in to sign in the user, the log out to log user out, and the user 
   return (
-    <AuthContext.Provider value={{ googleSignIn, logOut, user }}>
+    <AuthContext.Provider value={{ googleSignIn, logOut, user }}> 
       {children}
     </AuthContext.Provider>
   );
