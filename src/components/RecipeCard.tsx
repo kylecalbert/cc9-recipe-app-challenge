@@ -4,17 +4,16 @@ import { Favorite, } from '@mui/icons-material';
 
 function RecipeCard({title, calories, image}:any) {
   return (
-    <Box sx={{ maxWidth: 345 }}>
+    <Box sx={{ maxWidth: 345, bgcolor: 'light', boxShadow: 1, margin: 2 }}>
       <CardMedia
         component="img"
         height="194"
-        alt={image}
       /> {image}
         <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="h5" color="text.secondary">
         {title}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="h6" color="text.secondary">
         {calories}
         </Typography>
       </CardContent>
