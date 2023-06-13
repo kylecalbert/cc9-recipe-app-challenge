@@ -6,7 +6,8 @@ import { createBrowserRouter, createRoutesFromElements, Route,RouterProvider, Ou
 import Login from './components/Login';
 import Favourites from './components/Favourites';
 import Home from './components/Home';
-
+import RecipeCard from './components/RecipeCard';
+import RecipeCardGrid from './components/RecipeCardGrid';
 
 function App() {
   const router = createBrowserRouter(
