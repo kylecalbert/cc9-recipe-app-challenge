@@ -13,7 +13,7 @@ interface Recipe {
 
 function Home() {
   const APP_ID = '6792d8f2';
-  const APP_KEY = '2a44e00a924467ce710d1e6f28e9b96';
+  const APP_KEY = '92a44e00a924467ce710d1e6f28e9b96';
 
   const [recipes, setRecipes] = useState<Recipe[]>([]);
 
@@ -22,12 +22,11 @@ function Home() {
   }, []);
 
   const getRecipes = async () => {
-    const response = await fetch("https://api.edamam.com/api/recipes/v2?type=public&q=chicken&app_id=6792d8f2&app_key=92a44e00a924467ce710d1e6f28e9b96");
+    const response = await fetch(`https://api.edamam.com/api/recipes/v2?type=public&q=rice&app_id=${APP_ID}&app_key=${APP_KEY}`);
     const data = await response.json();
     setRecipes(data.hits);
   }
   
-  console.log(recipes)
   return (
     <div className="App">
       <form className="search-form" action="">
