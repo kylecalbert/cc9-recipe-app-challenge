@@ -1,35 +1,10 @@
-import React, { useEffect } from 'react';
-import { Box, Button } from '@mui/material';
+// Login.js
+import React from 'react';
+import { Box, Button, Typography } from '@mui/material';
 import GoogleButton from 'react-google-button';
-import { UserAuth } from "../context/AuthContext";
-import { Link, useNavigate } from 'react-router-dom';
-
+import { useAuthentication } from './AuthUtils';
 function Login() {
-  const navigate = useNavigate();
-  const authContext = UserAuth();
-  const { googleSignIn, user, logOut } = authContext;
-
-  useEffect(() => {
-    if (user) {
-      navigate('/Home');
-    }
-  }, [user]);
-
-  const handleGoogleSignIn = async () => {
-    try {
-      await googleSignIn();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleGoogleSignOut = async () => {
-    try {
-      await logOut();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { user, handleGoogleSignIn, handleGoogleSignOut } = useAuthentication();
 
   return (
     <Box
@@ -39,23 +14,23 @@ function Login() {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
+        padding: '20px',
+        background: '#f5f5f5',
       }}
     >
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '10px',
-          right: '70px',
-        }}
-      >
-        {user?.displayName ? (
-          <Button onClick={handleGoogleSignOut}>LogOut</Button>
-        ) : (
-          <Link to="/sign-in">Sign In</Link>
-        )}
-      </Box>
+      <Typography variant="h4" component="h1" sx={{ marginBottom: '40px' }}>
+        Welcome to our Recipe App
+      </Typography>
 
-      <GoogleButton onClick={handleGoogleSignIn} />
+      {user?.displayName ? (
+        <Button variant="contained" onClick={handleGoogleSignOut}>
+          Log Out
+        </Button>
+      ) : (
+        <GoogleButton onClick={handleGoogleSignIn} />
+      )}
+
+      <Box sx={{ marginTop: '20px', textAlign: 'center' }}>{/* Additional content */}</Box>
     </Box>
   );
 }

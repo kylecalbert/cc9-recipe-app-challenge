@@ -6,15 +6,15 @@ import { createBrowserRouter, createRoutesFromElements, Route,RouterProvider, Ou
 import Login from './components/Login';
 import Favourites from './components/Favourites';
 import Home from './components/Home';
-
-
+import  Navbar  from './components/Navbar';
+import Protected from './components/Protected';
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
         <Route index element={<Login />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/favourites" element={<Favourites />} />
+        <Route path="/home" element={<Protected><Home /></Protected>} />
+        <Route path="/favourites" element={<Protected><Favourites /></Protected>} />
       </Route>
     )
   );
@@ -29,6 +29,7 @@ function App() {
 const Root = () => {
   return (
     <div>
+      <Navbar/>
       <Outlet />
     </div>
   );
