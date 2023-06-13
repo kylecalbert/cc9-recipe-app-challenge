@@ -1,0 +1,60 @@
+/* header.css */
+
+/* Header container */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: #333;
+    color: white;
+  }
+  
+  /* Logo styles */
+  .logo {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  /* Burger menu icon styles */
+  .bm-burger-button {
+    display: none; /* Hide the burger menu icon on larger screens */
+    @media (max-width: 768px) {
+      display: block; /* Show the burger menu icon on smaller screens */
+      width: 36px;
+      height: 30px;
+      position: relative;
+      margin-left: 8px;
+      cursor: pointer;
+    }
+  }
+  
+  /* Menu styles */
+  .bm-menu {
+    background-color: #333;
+    padding: 2rem;
+  }
+  
+  /* Menu item styles */
+  .bm-menu a {
+    display: block;
+    color: white;
+    padding: 8px;
+    text-decoration: none;
+    margin-bottom: 16px;
+  }
+  
+  /* Sign-in link styles */
+  .sign-in {
+    color: white;
+    text-decoration: none;
+    margin-right: 16px;
+  }
+  
+  @media (min-width: 769px) {
+    /* Show the burger menu icon only on smaller screens */
+    .bm-burger-button {
+      display: none;
+    }
+  }
+  
