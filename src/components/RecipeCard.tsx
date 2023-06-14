@@ -3,18 +3,21 @@ import { Box, Typography, CardContent, CardActions, CardMedia, IconButton, } fro
 import { Favorite, } from '@mui/icons-material';
 
 function RecipeCard({title, calories, image}:any) {
+  const roundedCalories = Math.round(calories); 
+
   return (
-    <Box sx={{ maxWidth: 345, bgcolor: 'light', boxShadow: 1, margin: 2 }}>
+    <Box>
       <CardMedia
         component="img"
         height="194"
-      /> {image}
+        src={image}
+      />
         <CardContent>
-        <Typography variant="h5" color="text.secondary">
+        <Typography variant="h5">
         {title}
         </Typography>
-        <Typography variant="h6" color="text.secondary">
-        {calories}
+        <Typography variant="h6">
+        {roundedCalories}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

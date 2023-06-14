@@ -2,14 +2,30 @@ import { createContext, useContext, ReactNode, useEffect, useState } from "react
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
 
+
+interface Recipe {
+  recipe: {
+    label: string;
+    calories: string;
+    image: string;
+    ingredients: string[];
+    uri:string,
+  }
+}
+
 interface AuthContextProviderProps {
   children: ReactNode;
 }
+
+
 ///auth context will be expecting these props
 interface AuthContextType {
   googleSignIn: () => void;
   logOut: () => void;
   user: AppUser | null;
+  recipes: Recipe[]
+  setRecipes: React.Dispatch<React.SetStateAction<Recipe[]>>;
+
 }
 
 
@@ -17,6 +33,8 @@ const AuthContext = createContext<AuthContextType>({
   googleSignIn: () => {},
   logOut: () => {},
   user: null,
+  recipes:[],
+  setRecipes:()=>{}
 });
 
 ///this is used to define the values the usestate will expect to have 
@@ -29,8 +47,12 @@ interface AppUser {
   
 }
 
+
+
 //setting up sign in with google functionality
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
+
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [user, setUser] = useState<AppUser | null>(null);  ///expects data object with two string values...or null..
 
   const logOut = () => {
@@ -58,7 +80,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   ///once everything is set up, alll the values or funcitons that are needed will need to be passed into here
   ///we will need the google sign in to sign in the user, the log out to log user out, and the user 
   return (
-    <AuthContext.Provider value={{ googleSignIn, logOut, user }}> 
+    <AuthContext.Provider value={{ googleSignIn, logOut, user,recipes,setRecipes }}> 
       {children}
     </AuthContext.Provider>
   );
