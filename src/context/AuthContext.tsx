@@ -24,6 +24,9 @@ const AuthContext = createContext<AuthContextType>({
 interface AppUser {
   email: string | null;
   displayName: string | null;
+  uid: string | null;
+
+  
 }
 
 //setting up sign in with google functionality
@@ -38,7 +41,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   //if user object is returned, update the current user...
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => { 
-      setUser(currentUser);       
+      setUser(currentUser);   
+      console.log(currentUser)    
     });
     return () => {
       unsubscribe();

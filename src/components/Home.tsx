@@ -8,12 +8,14 @@ interface Recipe {
     calories: string;
     image: string;
     ingredients: string[];
+
   };
 }
 
 function Home() {
   const APP_ID = '6792d8f2';
   const APP_KEY = '92a44e00a924467ce710d1e6f28e9b96';
+  
 
   const [recipes, setRecipes] = useState<Recipe[]>([]);
 
@@ -26,6 +28,7 @@ function Home() {
     const data = await response.json();
     setRecipes(data.hits);
   }
+  console.log(recipes)
   
   return (
     <div className="App">
