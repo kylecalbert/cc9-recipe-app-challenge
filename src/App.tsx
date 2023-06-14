@@ -1,14 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { AuthContextProvider } from './context/AuthContext';
 import { createBrowserRouter, createRoutesFromElements, Route,RouterProvider, Outlet } from 'react-router-dom';
 import Login from './components/Login';
 import Favourites from './components/Favourites';
 import Home from './components/Home';
-
-import RecipeCard from './components/RecipeCard';
-import RecipeCardGrid from './components/RecipeCardGrid';
 
 
 import  Navbar  from './components/Navbar';
