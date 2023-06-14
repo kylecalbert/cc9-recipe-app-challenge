@@ -1,8 +1,8 @@
 import React from 'react';
 import { experimentalStyled as styled } from '@mui/material/styles';
-import {Box,  Paper, Grid}  from '@mui/material/';
+import { Box, Paper, Grid }  from '@mui/material';
 import RecipeCard from './RecipeCard';
-
+import { UserAuth } from '../context/AuthContext';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -12,13 +12,19 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export default function ResponsiveGrid() {
+export default function RecipeCardGrid() {
+  
+ 
+  const {recipes} = UserAuth()
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-        {RecipeCard.map((_, index) => (
-          <Grid xs={2} sm={4} md={4} key={index}>
-            <Item>xs=2</Item>
+        {recipes.map((recipe) => (
+          <Grid item xs={2} sm={4} md={4} key={recipe.recipe.uri}>
+            <Item>
+              <RecipeCard title={recipe.recipe.label} calories={recipe.recipe.calories} image={recipe.recipe.image}/>
+            </Item>
           </Grid>
         ))}
       </Grid>
