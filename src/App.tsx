@@ -9,6 +9,7 @@ import Home from './components/Home';
 
 import  Navbar  from './components/Navbar';
 import Protected from './components/Protected';
+import { RecipeContextProvider } from './context/RecipeContext';
 
 function App() {
   const router = createBrowserRouter(
@@ -23,7 +24,9 @@ function App() {
 
   return (
     <AuthContextProvider>
+      <RecipeContextProvider>
       <RouterProvider router={router} />
+      </RecipeContextProvider>
     </AuthContextProvider>
   );
 }

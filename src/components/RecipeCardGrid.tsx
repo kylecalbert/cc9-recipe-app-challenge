@@ -2,7 +2,7 @@ import React from 'react';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import { Box, Paper, Grid }  from '@mui/material';
 import RecipeCard from './RecipeCard';
-import { UserAuth } from '../context/AuthContext';
+import { useRecipeContext } from '../context/RecipeContext';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -15,7 +15,7 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function RecipeCardGrid() {
   
  
-  const {recipes} = UserAuth()
+  const {recipes} = useRecipeContext()
 
   return (
     <Box sx={{ flexGrow: 1 }}>

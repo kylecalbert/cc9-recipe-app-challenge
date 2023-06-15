@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import { UserAuth } from '../context/AuthContext';
+import { useAuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 export function useAuthentication() {
   const navigate = useNavigate();
-  const authContext = UserAuth();
+  const authContext = useAuthContext();
   const { googleSignIn, user, logOut } = authContext;
 
 ///if a user object is returned, instantly navigate to the home page
