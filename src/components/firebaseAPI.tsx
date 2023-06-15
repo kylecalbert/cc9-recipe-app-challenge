@@ -1,5 +1,5 @@
-import { collection, doc, updateDoc, arrayUnion, arrayRemove, getDoc, setDoc } from 'firebase/firestore';
-import { firestore } from '../firebase'; 
+import { collection, doc, updateDoc, arrayUnion, arrayRemove, getDoc, setDoc, where, query, getDocs } from 'firebase/firestore';
+import { firestore } from '../firebase';
 
 export const addToFavorites = async (recipeUri: string, userId: string | null) => {
   if (!userId) {
@@ -41,4 +41,17 @@ export const removeFromFavorites = async (recipeUri: string, userId: string | nu
       favoriteRecipes: arrayRemove(recipeUri),
     });
   }
+};
+
+export const fetchFavoriteRecipes = async (userId: string) => {
+  const userFavoritesCollectionRef = collection(firestore, 'userFavorites');
+  const userFavoritesQuery = query(userFavoritesCollectionRef, where('userId', '==', userId));
+  const userFavoritesSnapshot = await getDocs(userFavoritesQuery);
+
+  if (!userFavoritesSnapshot.empty) {
+    const userFavoritesData = userFavoritesSnapshot.docs[0].data();
+    return userFavoritesData.favoriteRecipes || [];
+  }
+
+  return [];
 };

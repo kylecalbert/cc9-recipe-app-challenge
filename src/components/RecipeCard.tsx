@@ -31,16 +31,8 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ title, calories, image, recipeU
     }
 
 
-  
-
   };
 
-      // setIsFavorite((prevIsFavorite) => !prevIsFavorite);
-    // if (isFavorite) {
-    //   removeFromFavorites(recipeUri, user.uid); // Pass userId argument
-    // } else {
-    //   addToFavorites(recipeUri, user.uid); // Pass userId argument
-    // }
 
   const roundedCalories = Math.round(parseInt(calories, 10));
 

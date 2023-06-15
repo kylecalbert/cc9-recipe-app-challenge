@@ -10,7 +10,7 @@ export function useAuthentication() {
 ///if a user object is returned, instantly navigate to the home page
   useEffect(() => {
     if (user) {
-      navigate('/Home');
+      // navigate('/Home');
     }
   }, [user]);
 

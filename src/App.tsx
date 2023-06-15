@@ -3,8 +3,8 @@ import './App.css';
 import { AuthContextProvider } from './context/AuthContext';
 import { createBrowserRouter, createRoutesFromElements, Route,RouterProvider, Outlet } from 'react-router-dom';
 import Login from './components/Login';
-import Favourites from './components/Favourites';
 import Home from './components/Home';
+import Favorites from './components/Favourites';
 
 
 import  Navbar  from './components/Navbar';
@@ -17,7 +17,7 @@ function App() {
       <Route path="/" element={<Root />}>
         <Route index element={<Login />} />
         <Route path="/home" element={<Protected><Home /></Protected>} />
-        <Route path="/favourites" element={<Protected><Favourites /></Protected>} />
+        <Route path="/favorites" element={<Protected><Favorites /></Protected>} />
       </Route>
     )
   );
