@@ -16,6 +16,7 @@ export default function RecipeCardGrid() {
   
  
   const {recipes} = useRecipeContext()
+  console.log(recipes)
 
   return (
     <Box sx={{ flexGrow: 1 }}>
