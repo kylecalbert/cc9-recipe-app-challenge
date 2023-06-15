@@ -4,9 +4,12 @@ import { useRecipeContext } from '../context/RecipeContext';
 import RecipeCardGrid from './RecipeCardGrid';
 
 function Home() {
-  const [ search, setSearch ] = useState<string>("");
   const {recipes } = useRecipeContext();
-  const [ query, setQuery ] = useState<string>("");
+  const {query, setQuery } = useRecipeContext()
+  const {search, setSearch } = useRecipeContext()
+
+
+
 
   const updateSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -29,7 +32,6 @@ function Home() {
           Search
         </button>
       </form>
-
       <RecipeCardGrid />
     </div>
   );
