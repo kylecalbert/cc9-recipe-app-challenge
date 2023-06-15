@@ -15,7 +15,7 @@ function Navbar() {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           The Recipe App
         </Typography>
-        <Button color="inherit" component={Link} to="/" sx={buttonStyle}>
+        <Button color="inherit" component={Link} to="/home" sx={buttonStyle}>
           Home
         </Button>
         <Button color="inherit" component={Link} to="/favorites" sx={buttonStyle}>
