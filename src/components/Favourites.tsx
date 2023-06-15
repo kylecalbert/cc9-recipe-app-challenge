@@ -36,16 +36,17 @@ function Favourites() {
     favoriteRecipes.includes(recipe.recipe.uri)
   );
 
-  console.log(recipes)
-  console.log("filtered",filteredRecipes)
+  
 
 
   return (
     <Box>
-      {favoriteRecipes.map((recipeUri) => (
-        <Link key={recipeUri} to={recipeUri}>
-          {recipeUri}
-        </Link>
+      {filteredRecipes.map((recipe) => (
+       <div>
+
+        {recipe.recipe.label}
+
+       </div>
       ))}
     </Box>
   );
