@@ -18,7 +18,7 @@ function Home() {
       `https://api.edamam.com/api/recipes/v2?type=public&q=rice&app_id=${APP_ID}&app_key=${APP_KEY}`
     );
     const data = await response.json();
-    setRecipes(data.hits); // Update this line to setRecipes(data.hits)
+    setRecipes(data.hits); 
   };
 
 

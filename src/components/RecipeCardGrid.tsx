@@ -23,7 +23,7 @@ export default function RecipeCardGrid() {
         {recipes.map((recipe) => (
           <Grid item xs={2} sm={4} md={4} key={recipe.recipe.uri}>
             <Item>
-              <RecipeCard title={recipe.recipe.label} calories={recipe.recipe.calories} image={recipe.recipe.image}/>
+              <RecipeCard title={recipe.recipe.label} calories={recipe.recipe.calories} image={recipe.recipe.image} recipeUri={recipe.recipe.uri}/>
             </Item>
           </Grid>
         ))}
