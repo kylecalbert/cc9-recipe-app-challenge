@@ -30,15 +30,11 @@ function Favourites() {
     return null;
   }
 
-
-
   const filteredRecipes = recipes.filter((recipe) =>
     favoriteRecipes.includes(recipe.recipe.uri)
   );
 
   
-
-
   return (
     <Box>
       {filteredRecipes.map((recipe) => (
