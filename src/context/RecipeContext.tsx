@@ -1,7 +1,7 @@
 import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
-import { Favorite } from '@mui/icons-material';
+import { Favorite, SkipPrevious } from '@mui/icons-material';
 import { useAuthentication } from '../components/AuthUtils';
-import { fetchFavoriteRecipes } from '../components/firebaseAPI';
+import { addToFavorites, fetchFavoriteRecipes, removeFromFavorites } from '../components/firebaseAPI';
 const APP_ID = '6792d8f2';
 const APP_KEY = '92a44e00a924467ce710d1e6f28e9b96';
 
@@ -21,6 +21,9 @@ interface RecipeContextType {
   isFavorite: boolean;
   setIsFavorite: React.Dispatch<React.SetStateAction<boolean>>;
   favoriteRecipes: string[];
+  toggleFavorite: (recipeUri: string) => void;
+
+
 }
 
 // Create the RecipeContext
@@ -30,6 +33,8 @@ const RecipeContext = createContext<RecipeContextType>({
   isFavorite: false,
   setIsFavorite: () => {},
   favoriteRecipes: [],
+  toggleFavorite: () => {},
+
 });
 
 interface RecipeContextProviderProps {
@@ -59,18 +64,60 @@ export const RecipeContextProvider = ({
   const { user } = useAuthentication();
 
   useEffect(() => {
-    if (!user) {
+    if (!user) {  
       return;
     }
 
+
+
     const fetchRecipes = async () => {
-      const userId = typeof user.uid === 'string' ? user.uid : '';
-      const recipes = await fetchFavoriteRecipes(userId);
-      setFavoriteRecipes(recipes);
+      const userId = user.uid || '';
+
+      const favoriteRecipes = await fetchFavoriteRecipes(userId);
+      setFavoriteRecipes(favoriteRecipes);
     };
 
     fetchRecipes();
   }, [user]);
+
+
+
+  //one recipe  uri will be passed in at a time
+  const toggleFavorite = (recipeUri:string)=>{
+
+
+    if(!user){
+      return
+    }
+
+    const isFavorite = favoriteRecipes.includes(recipeUri); ///getting all the favorite recipes
+    const userId = user.uid || '';
+
+   ///if recipe uri exists and user clicks the favourite icon again.
+    if(isFavorite){
+      removeFromFavorites(recipeUri,userId).then(()=>{  ///remove the recipe and then update the favourite Recipes
+        setFavoriteRecipes((prevFavorites)=>prevFavorites.filter((uri)=>uri!==recipeUri))
+      }).catch((error)=>{
+        console.log('Error removing from favorites:', error);
+
+
+      })
+    }else{  ///else add the recipe to the favorite
+      addToFavorites(recipeUri,userId).then(()=>{
+        setFavoriteRecipes((prevFavorites)=>[...prevFavorites,recipeUri])
+
+      }).catch((error)=>{
+        console.log('Error adding to favorites:', error);
+
+      })
+    }
+
+
+
+
+
+
+  }
 
   return (
     <RecipeContext.Provider
@@ -80,6 +127,7 @@ export const RecipeContextProvider = ({
         isFavorite,
         setIsFavorite,
         favoriteRecipes,
+        toggleFavorite
       }}
     >
       {children}
