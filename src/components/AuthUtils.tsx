@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { useAuthContext } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
 
 export function useAuthentication() {
-  const navigate = useNavigate();
+
   const authContext = useAuthContext();
   const { googleSignIn, user, logOut } = authContext;
 
