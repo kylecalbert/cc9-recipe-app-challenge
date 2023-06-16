@@ -22,7 +22,10 @@ interface RecipeContextType {
   setIsFavorite: React.Dispatch<React.SetStateAction<boolean>>;
   favoriteRecipes: string[];
   toggleFavorite: (recipeUri: string) => void;
-
+  query: string;
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
+  search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
 
 }
 
@@ -30,10 +33,17 @@ interface RecipeContextType {
 const RecipeContext = createContext<RecipeContextType>({
   recipes: [],
   setRecipes: () => {},
+
   isFavorite: false,
   setIsFavorite: () => {},
   favoriteRecipes: [],
   toggleFavorite: () => {},
+
+
+  query: "",
+  setQuery: () => {},
+  search: "",
+  setSearch: () => {},
 
 });
 
@@ -44,6 +54,7 @@ interface RecipeContextProviderProps {
 export const RecipeContextProvider = ({
   children,
 }: RecipeContextProviderProps) => {
+
   useEffect(() => {
     getRecipes();
   }, []);
@@ -51,10 +62,12 @@ export const RecipeContextProvider = ({
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]);
+  const [query, setQuery] = useState<string>("");
+  const [search, setSearch] = useState<string>("");
 
   const getRecipes = async () => {
     const response = await fetch(
-      `https://api.edamam.com/api/recipes/v2?type=public&q=rice&app_id=${APP_ID}&app_key=${APP_KEY}`
+      `https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}`
     );
     const data = await response.json();
 
@@ -119,6 +132,23 @@ export const RecipeContextProvider = ({
 
   }
 
+    setRecipes(data.hits);
+  };
+
+  useEffect(() => {
+    getRecipes();
+  }, [query]);
+
+  const updateSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setQuery(search);
+  };
+
+
   return (
     <RecipeContext.Provider
       value={{
@@ -128,6 +158,10 @@ export const RecipeContextProvider = ({
         setIsFavorite,
         favoriteRecipes,
         toggleFavorite
+        query,
+        setQuery,
+        search,
+        setSearch,
       }}
     >
       {children}
