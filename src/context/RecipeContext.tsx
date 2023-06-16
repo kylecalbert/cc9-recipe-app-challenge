@@ -1,13 +1,8 @@
 import { createContext, useContext, ReactNode, useState,useEffect } from 'react';
 
 
-
-
 const APP_ID = '6792d8f2';
 const APP_KEY = '92a44e00a924467ce710d1e6f28e9b96';
-
-
-
 
 interface Recipe {
   recipe: {

@@ -1,6 +1,6 @@
 // Login.js
 import React from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, } from '@mui/material';
 import GoogleButton from 'react-google-button';
 import { useAuthentication } from './AuthUtils';
 function Login() {
@@ -8,17 +8,17 @@ function Login() {
 
   return (
     <Box
-      sx={{
-        display: 'flex',
-        height: '100vh',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '20px',
-        background: '#f5f5f5',
-      }}
-    >
-      <Typography variant="h4" component="h1" sx={{ marginBottom: '40px' }}>
+  sx={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: "100vh",
+    flexDirection: 'column',
+    padding: '20px',
+    background: '#f5f5f5',
+  }}
+>
+      <Typography variant="h5" component="h1" sx={{ marginBottom: '40px' }}>
         Welcome to our Recipe App
       </Typography>
 
