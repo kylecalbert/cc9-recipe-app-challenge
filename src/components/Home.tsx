@@ -1,28 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { useRecipeContext } from '../context/RecipeContext';
 import RecipeCardGrid from './RecipeCardGrid';
 
 function Home() {
-  const {recipes } = useRecipeContext();
-  const {query, setQuery } = useRecipeContext()
-  const {search, setSearch } = useRecipeContext()
 
-
-
-
-  const updateSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  }
-
- useEffect(()=>{
-
-},[query])
-
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setQuery(search);
-  }
+  const { search, handleSearch, updateSearch } = useRecipeContext();
   
   return (
     <div className="App">
