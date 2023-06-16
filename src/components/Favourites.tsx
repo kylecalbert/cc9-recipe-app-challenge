@@ -7,7 +7,7 @@ import RecipeCard from './RecipeCard';
 import { useRecipeContext } from '../context/RecipeContext';
 
 function Favourites() {
-  const { user } = useAuthentication();
+
   const {recipes,favoriteRecipes} = useRecipeContext()
   const filteredRecipes = recipes.filter((recipe) =>
     favoriteRecipes.includes(recipe.recipe.uri)

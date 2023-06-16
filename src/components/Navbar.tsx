@@ -12,7 +12,7 @@ function Navbar() {
   return (
     <AppBar position="static" color="transparent" elevation={0}>
       <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
           The Recipe App
         </Typography>
         <Button color="inherit" component={Link} to="/home" sx={buttonStyle}>
