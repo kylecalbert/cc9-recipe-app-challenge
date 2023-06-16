@@ -1,38 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Typography, CardContent, CardActions, CardMedia, IconButton } from '@mui/material';
 import { Favorite } from '@mui/icons-material';
-import { addToFavorites, removeFromFavorites } from './firebaseAPI';
 import { useAuthentication } from './AuthUtils';
+import { useRecipeContext } from '../context/RecipeContext';
 
 interface RecipeCardProps {
   title: string;
   calories: string;
   image: string;
   recipeUri: string;
-
 }
 
 const RecipeCard: React.FC<RecipeCardProps> = ({ title, calories, image, recipeUri }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { favoriteRecipes, toggleFavorite } = useRecipeContext();
+  const { user } = useAuthentication();
 
-  const{user} = useAuthentication()
-
-  if(!user){
-    return null
+  if (!user) {
+    return null;
   }
 
+  const isFavorite = favoriteRecipes.includes(recipeUri);
+  console.log("isfaovurite",isFavorite)
+
   const handleFavoriteClick = () => {
-
-    setIsFavorite((currentState)=>!currentState)// on click take the value of isFavorite  and set it to the opposite value (!prevIsFavorite) -toggling
-    if(isFavorite){
-      removeFromFavorites(recipeUri,user.uid) //if favourite is true, and user clicks it, remove 
-    }else{
-      addToFavorites(recipeUri,user.uid) ///else add to favourite
-    }
-
-
+    toggleFavorite(recipeUri);
   };
-
 
   const roundedCalories = Math.round(parseInt(calories, 10));
 
