@@ -27,6 +27,8 @@ interface RecipeContextType {
   setQuery: React.Dispatch<React.SetStateAction<string>>;
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
+  updateSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSearch: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
 // Create the RecipeContext
@@ -41,6 +43,8 @@ const RecipeContext = createContext<RecipeContextType>({
   setQuery: () => {},
   search: "",
   setSearch: () => {},
+  updateSearch: () => {},
+  handleSearch: () => {},
 });
 
 interface RecipeContextProviderProps {
@@ -137,6 +141,8 @@ export const RecipeContextProvider = ({
         setQuery,
         search,
         setSearch,
+        updateSearch,
+        handleSearch,
       }}
     >
       {children}
