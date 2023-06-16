@@ -7,36 +7,11 @@ import RecipeCard from './RecipeCard';
 import { useRecipeContext } from '../context/RecipeContext';
 
 function Favourites() {
-  const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]);
   const { user } = useAuthentication();
-  const {recipes} = useRecipeContext()
-
-  useEffect(() => {
-    if (!user) {
-      return;
-    }
-
-    const fetchRecipes = async () => {
-      const userId = typeof user.uid === 'string' ? user.uid : '';
-      const recipes = await fetchFavoriteRecipes(userId);
-      setFavoriteRecipes(recipes);
-
-    };
-
-    fetchRecipes();
-  }, [user]);
-
-  if (!user) {
-    return null;
-  }
-
-
-
+  const {recipes,favoriteRecipes} = useRecipeContext()
   const filteredRecipes = recipes.filter((recipe) =>
     favoriteRecipes.includes(recipe.recipe.uri)
   );
-
-  
 
 
   return (

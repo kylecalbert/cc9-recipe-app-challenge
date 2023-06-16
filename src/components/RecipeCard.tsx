@@ -3,7 +3,7 @@ import { Box, Typography, CardContent, CardActions, CardMedia, IconButton } from
 import { Favorite } from '@mui/icons-material';
 import { addToFavorites, removeFromFavorites } from './firebaseAPI';
 import { useAuthentication } from './AuthUtils';
-
+import { useRecipeContext } from '../context/RecipeContext';
 interface RecipeCardProps {
   title: string;
   calories: string;
@@ -13,7 +13,7 @@ interface RecipeCardProps {
 }
 
 const RecipeCard: React.FC<RecipeCardProps> = ({ title, calories, image, recipeUri }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const {isFavorite,setIsFavorite} = useRecipeContext()
 
   const{user} = useAuthentication()
 
@@ -33,6 +33,11 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ title, calories, image, recipeU
 
   };
 
+
+
+  ///fetch recipe from the database,
+  ///check if the uri exists
+  //if uri exists set favorite to true
 
   const roundedCalories = Math.round(parseInt(calories, 10));
 
