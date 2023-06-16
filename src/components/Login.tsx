@@ -8,16 +8,16 @@ function Login() {
 
   return (
     <Box
-  sx={{
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    minHeight: "100vh",
-    flexDirection: 'column',
-    padding: '20px',
-    background: '#f5f5f5',
-  }}
->
+    sx={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "100vh",
+      flexDirection: 'column',
+      padding: '20px',
+      background: '#f5f5f5',
+    }}
+  >
       <Typography variant="h5" component="h1" sx={{ marginBottom: '40px' }}>
         Welcome to our Recipe App
       </Typography>
