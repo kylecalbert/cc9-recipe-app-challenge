@@ -22,15 +22,15 @@ function Login() {
         Welcome to our Recipe App
       </Typography>
 
-      {user?.displayName ? (        ///user has data, show log out button because the user is signed in
+      {user?.displayName ? (        //if the user exists ie if user is signed in, then render log out button
         <Button variant="contained" onClick={handleGoogleSignOut}> 
           Log Out
         </Button>
-      ) : (
+      ) : (  ///else if there is no user,  the sign in with google button
         <GoogleButton onClick={handleGoogleSignIn} />
       )}
 
-      <Box sx={{ marginTop: '20px', textAlign: 'center' }}>{/* Additional content */}</Box>
+
     </Box>
   );
 }
