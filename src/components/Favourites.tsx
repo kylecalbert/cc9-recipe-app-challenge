@@ -8,21 +8,14 @@ import { useRecipeContext } from '../context/RecipeContext';
 
 function Favourites() {
 
-  const {recipes,favoriteRecipes} = useRecipeContext()
-  const filteredRecipes = recipes.filter((recipe) =>
-    favoriteRecipes.includes(recipe.recipe.uri)
-  );
+
 
 
   return (
     <Box>
-      {filteredRecipes.map((recipe) => (
-       <div>
+     
 
-        {recipe.recipe.label}
-
-       </div>
-      ))}
+ div
     </Box>
   );
 }
