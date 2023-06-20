@@ -2,12 +2,14 @@ import { createContext, useContext, ReactNode, useEffect, useState } from "react
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
 
+// Define the shape of the user object
 interface AppUser {
   email: string | null;
   displayName: string | null;
   uid: string | null;
 }
 
+// Define the shape of the AuthContext
 interface AuthContextType {
   googleSignIn: () => void;
   logOut: () => void;
@@ -21,6 +23,7 @@ const AuthContext = createContext<AuthContextType>({
   user: null,
 });
 
+// Define the props for AuthContextProvider
 interface AuthContextProviderProps {
   children: ReactNode;
 }
@@ -38,6 +41,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
+
+    // Clean up the listener when the component unmounts
     return () => {
       unsubscribe();
     };
@@ -56,7 +61,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   );
 };
 
-// Custom hook to access the AuthContext
+// export the useAuthContext which literally contains everything such as the googleSignIn, googleSign out etc...
+///so that we can extract those and set up on click functionalityes
 export const useAuthContext = (): AuthContextType => {
   return useContext(AuthContext);
 };

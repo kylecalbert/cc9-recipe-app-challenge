@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Box, Typography, CardContent, CardActions, CardMedia, IconButton } from '@mui/material';
 import { Favorite } from '@mui/icons-material';
 import { useAuthentication } from './AuthUtils';
