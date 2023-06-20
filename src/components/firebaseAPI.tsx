@@ -2,6 +2,10 @@ import { collection, doc, updateDoc, arrayUnion, arrayRemove, getDoc, setDoc, wh
 import { firestore } from '../firebase';
 import { FavoriteRecipe } from '../context/RecipeContext';
 
+
+
+///we pass in userID so that we can know what users table to access, we also pass in the favorite recipe data
+//so that we can add all the recipe data such as title, ingredients etc ...to firebase
 export const addToFavorites = async (userId: string, favoriteRecipe: FavoriteRecipe) => {
   if (!userId) {
     throw new Error('User ID is null');
@@ -26,6 +30,8 @@ export const addToFavorites = async (userId: string, favoriteRecipe: FavoriteRec
   }
 };
 
+
+///removing from favorites function
 export const removeFromFavorites = async (favoriteRecipe: FavoriteRecipe, userId: string) => {
   if (!userId) {
     throw new Error('User ID is null');
@@ -51,6 +57,7 @@ export const removeFromFavorites = async (favoriteRecipe: FavoriteRecipe, userId
 };
 
 
+///fetching the favorite recipes which are on firebase
 export const fetchFavoriteRecipes = async (userId: string): Promise<FavoriteRecipe[]> => {
   const userFavoritesCollectionRef = collection(firestore, 'userFavorites');
   const userFavoritesQuery = query(userFavoritesCollectionRef, where('userId', '==', userId));

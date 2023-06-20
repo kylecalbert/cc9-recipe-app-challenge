@@ -6,6 +6,8 @@ import { Favorite } from '@mui/icons-material';
 const APP_ID = '6792d8f2';
 const APP_KEY = '92a44e00a924467ce710d1e6f28e9b96';
 
+
+///These interfaces define the structure of recipe objects and favorite recipe objects, respectively. 
 export interface Recipe {
   recipe: {
     label: string;
@@ -24,6 +26,8 @@ export interface FavoriteRecipe {
   uri: string;
 }
 
+///This interface defines the type of the recipe context. So essentially if we want to pass these objects down through the context,
+///then we must say to react, what type of objects they are specifically
 interface RecipeContextType {
   recipes: Recipe[];
   setRecipes: React.Dispatch<React.SetStateAction<Recipe[]>>;
@@ -39,6 +43,7 @@ interface RecipeContextType {
   handleSearch: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
+///we then have to initialise default values 
 const RecipeContext = createContext<RecipeContextType>({
   recipes: [],
   setRecipes: () => {},
@@ -85,6 +90,8 @@ export const RecipeContextProvider = ({ children }: RecipeContextProviderProps) 
       return;
     }
 
+    ///this function is used to fetch recipes. 
+
     const fetchRecipes = async () => {
       const userId = user.uid || '';
       const favoriteRecipes = await fetchFavoriteRecipes(userId);
@@ -92,19 +99,24 @@ export const RecipeContextProvider = ({ children }: RecipeContextProviderProps) 
     };
 
     fetchRecipes();
-  }, [user]);
+  }, [user]); //the recipes will only be fetched if there is an active and signed in user
 
+
+
+  ///This will be triggered when the user cicks the heart icon on a card
   const toggleFavorite = (recipe: Recipe) => {
     if (!user) {
       return;
     }
 
-    const recipeUri = recipe.recipe?.uri;
-    const isFavorite = favoriteRecipes?.some((favoriteRecipe) => favoriteRecipe.uri === recipeUri);
+    const recipeUri = recipe.recipe?.uri;      ///get the recipe uri from the object and store it in recipeUri
+    const isFavorite = favoriteRecipes?.some((favoriteRecipe) => favoriteRecipe.uri === recipeUri); ///loop through all the favorite recipe uris and if any of them match the current card uri, then return true
 
     const userId = user.uid || '';
 
-    if (isFavorite) {
+
+ 
+    if (isFavorite) {  ///if isFavorite is true, that means the item alrady exists in the database and the user wants to remove the item
       removeFromFavorites(recipe.recipe, userId)
         .then(() => {
           setFavoriteRecipes((prevFavorites) =>
@@ -114,12 +126,14 @@ export const RecipeContextProvider = ({ children }: RecipeContextProviderProps) 
         .catch((error) => {
           console.log('Error removing from favorites:', error);
         });
+
+   ///else this means the user wants to add the item to the database
     } else {
-      const { label, calories, image, ingredients, uri } = recipe.recipe;
-      const favoriteRecipe: FavoriteRecipe = { label, calories, image, ingredients, uri };
+      const { label, calories, image, ingredients, uri } = recipe.recipe;  ///we are getting all these data from the current card
+      const favoriteRecipe: FavoriteRecipe = { label, calories, image, ingredients, uri };  ///we then create a new variable called favoriteRecipe and add the data to it
       addToFavorites(userId, favoriteRecipe)
         .then(() => {
-          setFavoriteRecipes((prevFavorites) => [...prevFavorites, favoriteRecipe]);
+          setFavoriteRecipes((prevFavorites) => [...prevFavorites, favoriteRecipe]); ///this opens up the favorites array, and adds the new favorites which has been stored in "favoriteRecipe" to the array 
         })
         .catch((error) => {
           console.log('Error adding to favorites:', error);
