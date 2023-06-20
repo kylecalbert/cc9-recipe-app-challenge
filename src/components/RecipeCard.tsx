@@ -1,17 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Typography, CardContent, CardActions, CardMedia, IconButton } from '@mui/material';
 import { Favorite } from '@mui/icons-material';
 import { useAuthentication } from './AuthUtils';
-import { useRecipeContext } from '../context/RecipeContext';
+import { useRecipeContext, Recipe } from '../context/RecipeContext';
 
 interface RecipeCardProps {
-  title: string;
-  calories: string;
-  image: string;
-  recipeUri: string;
+  recipe: Recipe;
 }
 
-const RecipeCard: React.FC<RecipeCardProps> = ({ title, calories, image, recipeUri }) => {
+const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
   const { favoriteRecipes, toggleFavorite } = useRecipeContext();
   const { user } = useAuthentication();
 
@@ -19,20 +16,23 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ title, calories, image, recipeU
     return null;
   }
 
-  const isFavorite = favoriteRecipes.includes(recipeUri);
-  console.log("isfaovurite",isFavorite)
+  const { label, calories, image, uri } = recipe.recipe || {};
+
+  const fRecipe = favoriteRecipes.map((item) => item.uri);
+  const isFavorite = fRecipe.includes(uri);
 
   const handleFavoriteClick = () => {
-    toggleFavorite(recipeUri);
+    toggleFavorite(recipe);
+    console.log("uri",uri)
   };
 
-  const roundedCalories = Math.round(parseInt(calories, 10));
+  const roundedCalories = Math.round(parseFloat(calories));
 
   return (
     <Box>
-      <CardMedia component="img" height="194" src={image} alt={title} />
+      <CardMedia component="img" height="194" src={image} alt={label} />
       <CardContent>
-        <Typography variant="h5">{title}</Typography>
+        <Typography variant="h5">{label}</Typography>
         <Typography variant="h6">{roundedCalories}</Typography>
       </CardContent>
       <CardActions disableSpacing>

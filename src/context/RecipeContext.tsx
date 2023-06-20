@@ -1,12 +1,12 @@
-import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
-import { Favorite, SkipPrevious } from '@mui/icons-material';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useAuthentication } from '../components/AuthUtils';
 import { addToFavorites, fetchFavoriteRecipes, removeFromFavorites } from '../components/firebaseAPI';
+import { Favorite } from '@mui/icons-material';
 
 const APP_ID = '6792d8f2';
 const APP_KEY = '92a44e00a924467ce710d1e6f28e9b96';
 
-interface Recipe {
+export interface Recipe {
   recipe: {
     label: string;
     calories: string;
@@ -16,13 +16,21 @@ interface Recipe {
   };
 }
 
+export interface FavoriteRecipe {
+  label: string;
+  calories: string;
+  image: string;
+  ingredients: string[];
+  uri: string;
+}
+
 interface RecipeContextType {
   recipes: Recipe[];
   setRecipes: React.Dispatch<React.SetStateAction<Recipe[]>>;
   isFavorite: boolean;
   setIsFavorite: React.Dispatch<React.SetStateAction<boolean>>;
-  favoriteRecipes: string[];
-  toggleFavorite: (recipeUri: string) => void;
+  favoriteRecipes: FavoriteRecipe[];
+  toggleFavorite: (recipe: Recipe) => void;
   query: string;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
   search: string;
@@ -31,7 +39,6 @@ interface RecipeContextType {
   handleSearch: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-// Create the RecipeContext
 const RecipeContext = createContext<RecipeContextType>({
   recipes: [],
   setRecipes: () => {},
@@ -39,26 +46,24 @@ const RecipeContext = createContext<RecipeContextType>({
   setIsFavorite: () => {},
   favoriteRecipes: [],
   toggleFavorite: () => {},
-  query: "",
+  query: '',
   setQuery: () => {},
-  search: "",
+  search: '',
   setSearch: () => {},
   updateSearch: () => {},
   handleSearch: () => {},
 });
 
 interface RecipeContextProviderProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
-export const RecipeContextProvider = ({
-  children,
-}: RecipeContextProviderProps) => {
+export const RecipeContextProvider = ({ children }: RecipeContextProviderProps) => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
-  const [favoriteRecipes, setFavoriteRecipes] = useState<string[]>([]);
-  const [query, setQuery] = useState<string>("");
-  const [search, setSearch] = useState<string>("");
+  const [favoriteRecipes, setFavoriteRecipes] = useState<FavoriteRecipe[]>([]);
+  const [query, setQuery] = useState<string>('');
+  const [search, setSearch] = useState<string>('');
 
   const getRecipes = async () => {
     const response = await fetch(
@@ -89,29 +94,32 @@ export const RecipeContextProvider = ({
     fetchRecipes();
   }, [user]);
 
-  const toggleFavorite = (recipeUri: string) => {
+  const toggleFavorite = (recipe: Recipe) => {
     if (!user) {
       return;
     }
 
-    const isFavorite = favoriteRecipes.includes(recipeUri);
+    const recipeUri = recipe.recipe?.uri;
+    const isFavorite = favoriteRecipes?.some((favoriteRecipe) => favoriteRecipe.uri === recipeUri);
 
     const userId = user.uid || '';
 
     if (isFavorite) {
-      removeFromFavorites(recipeUri, userId)
+      removeFromFavorites(recipe.recipe, userId)
         .then(() => {
           setFavoriteRecipes((prevFavorites) =>
-            prevFavorites.filter((uri) => uri !== recipeUri)
+            prevFavorites.filter((favRecipe) => favRecipe.uri !== recipeUri)
           );
         })
         .catch((error) => {
           console.log('Error removing from favorites:', error);
         });
     } else {
-      addToFavorites(recipeUri, userId)
+      const { label, calories, image, ingredients, uri } = recipe.recipe;
+      const favoriteRecipe: FavoriteRecipe = { label, calories, image, ingredients, uri };
+      addToFavorites(userId, favoriteRecipe)
         .then(() => {
-          setFavoriteRecipes((prevFavorites) => [...prevFavorites, recipeUri]);
+          setFavoriteRecipes((prevFavorites) => [...prevFavorites, favoriteRecipe]);
         })
         .catch((error) => {
           console.log('Error adding to favorites:', error);
@@ -126,6 +134,7 @@ export const RecipeContextProvider = ({
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setQuery(search);
+    setSearch('');
   };
 
   return (
@@ -150,6 +159,4 @@ export const RecipeContextProvider = ({
   );
 };
 
-export const useRecipeContext = (): RecipeContextType => {
-  return useContext(RecipeContext);
-};
+export const useRecipeContext = () => useContext(RecipeContext);
