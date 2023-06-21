@@ -1,10 +1,8 @@
 **Recipe App**
 
-
-**The application uses Google Auth to sign users in and out
+The application uses Google Auth to sign users in and out
 Firebase database stores recipe data 
-Users can favorite items and they will be retained in firebase database.**
-
+Users can favorite items and they will be retained in firebase database
 
 
 ![ezgif com-video-to-gif](https://github.com/kylecalbert/cc9-recipe-app-challenge/assets/20683951/f215fc92-0540-4614-b7b8-2c1f0663aefa)
