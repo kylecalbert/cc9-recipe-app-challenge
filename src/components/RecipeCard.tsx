@@ -1,5 +1,12 @@
 import React from 'react';
-import { Box, Typography, CardContent, CardActions, CardMedia, IconButton } from '@mui/material';
+import {
+  Box,
+  Typography,
+  CardContent,
+  CardActions,
+  CardMedia,
+  IconButton,
+} from '@mui/material';
 import { Favorite } from '@mui/icons-material';
 import { useAuthentication } from './AuthUtils';
 import { useRecipeContext, Recipe } from '../context/RecipeContext';
@@ -16,28 +23,27 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
     return null;
   }
 
-  const { label, calories, image, uri } = recipe.recipe || {};     ///for each recipe that gets loaded on the page, get these data from the object 
+  const { label, calories, image, uri } = recipe.recipe || {};
 
-  const fRecipe = favoriteRecipes.map((item) => item.uri);    /// retrieve and store every uri that exists in the favorites stored on firebase
-  const isFavorite = fRecipe.includes(uri);     /// if the recipe card that has been rendered includes a uri stored on friebase, return true, else return false
+  const fRecipe = favoriteRecipes.map((item) => item.uri);
+  const isFavorite = fRecipe.includes(uri);
 
-
-
-  ///when the user clicks the favorite icon we want to do a check weather its being added or removed
   const handleFavoriteClick = () => {
-    toggleFavorite(recipe);  ///we pass in the recipe data to this function so that the data can get added to the database
-    ///tgo the recipecontext and find this function
- 
+    toggleFavorite(recipe);
   };
 
   const roundedCalories = Math.round(parseFloat(calories));
 
   return (
-    <Box>
+    <Box data-testid="recipe-card">
       <CardMedia component="img" height="194" src={image} alt={label} />
       <CardContent>
-        <Typography variant="h5">{label}</Typography>
-        <Typography variant="h6">{roundedCalories}</Typography>
+        <Typography data-testid="recipe-label" variant="h6">
+          {label}
+        </Typography>
+        <Typography data-testid="recipe-calories" variant="body2">
+          {roundedCalories}
+        </Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites" onClick={handleFavoriteClick}>

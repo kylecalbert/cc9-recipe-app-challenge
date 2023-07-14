@@ -28,7 +28,7 @@ export interface FavoriteRecipe {
 
 ///This interface defines the type of the recipe context. So essentially if we want to pass these objects down through the context,
 ///then we must say to react, what type of objects they are specifically
-interface RecipeContextType {
+export interface RecipeContextType {
   recipes: Recipe[];
   setRecipes: React.Dispatch<React.SetStateAction<Recipe[]>>;
   isFavorite: boolean;

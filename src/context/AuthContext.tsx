@@ -1,6 +1,18 @@
-import { createContext, useContext, ReactNode, useEffect, useState } from "react";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebase";
+import {
+  createContext,
+  useContext,
+  ReactNode,
+  useEffect,
+  useState,
+} from 'react';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged,
+} from 'firebase/auth';
+import { auth } from '../firebase';
 
 // Define the shape of the user object
 interface AppUser {
@@ -39,7 +51,12 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   useEffect(() => {
     // Listen for changes in the user's authentication state
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+      if (currentUser) {
+        const { email, displayName, uid } = currentUser;
+        setUser({ email, displayName, uid });
+      } else {
+        setUser(null);
+      }
     });
 
     // Clean up the listener when the component unmounts

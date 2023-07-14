@@ -1,13 +1,18 @@
 import React from 'react';
 import './App.css';
 import { AuthContextProvider } from './context/AuthContext';
-import { createBrowserRouter, createRoutesFromElements, Route,RouterProvider, Outlet } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+  Outlet,
+} from 'react-router-dom';
 import Login from './components/Login';
 import Home from './components/Home';
 import Favorites from './components/Favourites';
 
-
-import  Navbar  from './components/Navbar';
+import Navbar from './components/Navbar';
 import Protected from './components/Protected';
 import { RecipeContextProvider } from './context/RecipeContext';
 
@@ -16,8 +21,22 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
         <Route index element={<Login />} />
-        <Route path="/home" element={<Protected><Home /></Protected>} />
-        <Route path="/favorites" element={<Protected><Favorites /></Protected>} />
+        <Route
+          path="/home"
+          element={
+            <Protected>
+              <Home />
+            </Protected>
+          }
+        />
+        <Route
+          path="/favorites"
+          element={
+            <Protected>
+              <Favorites />
+            </Protected>
+          }
+        />
       </Route>
     )
   );
@@ -25,7 +44,7 @@ function App() {
   return (
     <AuthContextProvider>
       <RecipeContextProvider>
-      <RouterProvider router={router} />
+        <RouterProvider router={router} />
       </RecipeContextProvider>
     </AuthContextProvider>
   );
@@ -34,7 +53,7 @@ function App() {
 const Root = () => {
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <Outlet />
     </div>
   );
