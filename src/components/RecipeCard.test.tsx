@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
 import RecipeCard from './RecipeCard';
 import { useAuthentication } from './AuthUtils';
 import { useRecipeContext } from '../context/RecipeContext';
@@ -115,7 +114,6 @@ describe('RecipeCard', () => {
       toggleFavorite: toggleFavoriteMock,
     });
 
-    const history = createMemoryHistory();
     render(
       <MemoryRouter>
         <RecipeCard recipe={recipe} />
