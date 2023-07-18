@@ -1,13 +1,16 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useAuthentication } from '../components/AuthUtils';
-import { addToFavorites, fetchFavoriteRecipes, removeFromFavorites } from '../components/firebaseAPI';
+import {
+  addToFavorites,
+  fetchFavoriteRecipes,
+  removeFromFavorites,
+} from '../components/firebaseAPI';
 import { Favorite } from '@mui/icons-material';
 
-const APP_ID = '6792d8f2';
-const APP_KEY = '92a44e00a924467ce710d1e6f28e9b96';
+const APP_ID = process.env.REACT_APP_APP_ID;
+const APP_KEY = process.env.REACT_APP_APP_KEY;
 
-
-///These interfaces define the structure of recipe objects and favorite recipe objects, respectively. 
+///These interfaces define the structure of recipe objects and favorite recipe objects, respectively.
 export interface Recipe {
   recipe: {
     label: string;
@@ -43,7 +46,7 @@ export interface RecipeContextType {
   handleSearch: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-///we then have to initialise default values 
+///we then have to initialise default values
 const RecipeContext = createContext<RecipeContextType>({
   recipes: [],
   setRecipes: () => {},
@@ -63,7 +66,9 @@ interface RecipeContextProviderProps {
   children: React.ReactNode;
 }
 
-export const RecipeContextProvider = ({ children }: RecipeContextProviderProps) => {
+export const RecipeContextProvider = ({
+  children,
+}: RecipeContextProviderProps) => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [favoriteRecipes, setFavoriteRecipes] = useState<FavoriteRecipe[]>([]);
@@ -90,7 +95,7 @@ export const RecipeContextProvider = ({ children }: RecipeContextProviderProps) 
       return;
     }
 
-    ///this function is used to fetch recipes. 
+    ///this function is used to fetch recipes.
 
     const fetchRecipes = async () => {
       const userId = user.uid || '';
@@ -101,22 +106,21 @@ export const RecipeContextProvider = ({ children }: RecipeContextProviderProps) 
     fetchRecipes();
   }, [user]); //the recipes will only be fetched if there is an active and signed in user
 
-
-
   ///This will be triggered when the user cicks the heart icon on a card
   const toggleFavorite = (recipe: Recipe) => {
     if (!user) {
       return;
     }
 
-    const recipeUri = recipe.recipe?.uri;      ///get the recipe uri from the object and store it in recipeUri
-    const isFavorite = favoriteRecipes?.some((favoriteRecipe) => favoriteRecipe.uri === recipeUri); ///loop through all the favorite recipe uris and if any of them match the current card uri, then return true
+    const recipeUri = recipe.recipe?.uri; ///get the recipe uri from the object and store it in recipeUri
+    const isFavorite = favoriteRecipes?.some(
+      (favoriteRecipe) => favoriteRecipe.uri === recipeUri
+    ); ///loop through all the favorite recipe uris and if any of them match the current card uri, then return true
 
     const userId = user.uid || '';
 
-
- 
-    if (isFavorite) {  ///if isFavorite is true, that means the item alrady exists in the database and the user wants to remove the item
+    if (isFavorite) {
+      ///if isFavorite is true, that means the item alrady exists in the database and the user wants to remove the item
       removeFromFavorites(recipe.recipe, userId)
         .then(() => {
           setFavoriteRecipes((prevFavorites) =>
@@ -127,13 +131,22 @@ export const RecipeContextProvider = ({ children }: RecipeContextProviderProps) 
           console.log('Error removing from favorites:', error);
         });
 
-   ///else this means the user wants to add the item to the database
+      ///else this means the user wants to add the item to the database
     } else {
-      const { label, calories, image, ingredients, uri } = recipe.recipe;  ///we are getting all these data from the current card
-      const favoriteRecipe: FavoriteRecipe = { label, calories, image, ingredients, uri };  ///we then create a new variable called favoriteRecipe and add the data to it
+      const { label, calories, image, ingredients, uri } = recipe.recipe; ///we are getting all these data from the current card
+      const favoriteRecipe: FavoriteRecipe = {
+        label,
+        calories,
+        image,
+        ingredients,
+        uri,
+      }; ///we then create a new variable called favoriteRecipe and add the data to it
       addToFavorites(userId, favoriteRecipe)
         .then(() => {
-          setFavoriteRecipes((prevFavorites) => [...prevFavorites, favoriteRecipe]); ///this opens up the favorites array, and adds the new favorites which has been stored in "favoriteRecipe" to the array 
+          setFavoriteRecipes((prevFavorites) => [
+            ...prevFavorites,
+            favoriteRecipe,
+          ]); ///this opens up the favorites array, and adds the new favorites which has been stored in "favoriteRecipe" to the array
         })
         .catch((error) => {
           console.log('Error adding to favorites:', error);
