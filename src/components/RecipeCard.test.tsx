@@ -1,5 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 import RecipeCard from './RecipeCard';
 import { useAuthentication } from './AuthUtils';
 import { useRecipeContext } from '../context/RecipeContext';
@@ -16,7 +18,18 @@ describe('RecipeCard', () => {
       label: 'Recipe Label',
       calories: '100',
       image: 'recipe-image.jpg',
-      ingredients: ['ingredient1', 'ingredient2'],
+      ingredients: [
+        {
+          text: 'Ingredient 1',
+          quantity: 1,
+          measure: 'cup',
+          food: 'Ingredient Food',
+          weight: 100,
+          foodCategory: 'Ingredient Category',
+          foodId: 'ingredient-id',
+          image: 'ingredient-image.jpg',
+        },
+      ],
       uri: 'recipe-uri',
     },
   };
@@ -27,7 +40,18 @@ describe('RecipeCard', () => {
       label: 'Favorite Recipe',
       calories: '200',
       image: 'favorite-image.jpg',
-      ingredients: ['favorite ingredient1', 'favorite ingredient2'],
+      ingredients: [
+        {
+          text: 'Ingredient 1',
+          quantity: 1,
+          measure: 'cup',
+          food: 'Ingredient Food',
+          weight: 100,
+          foodCategory: 'Ingredient Category',
+          foodId: 'ingredient-id',
+          image: 'ingredient-image.jpg',
+        },
+      ],
       uri: 'favorite-uri',
     },
   ];
@@ -52,7 +76,11 @@ describe('RecipeCard', () => {
   });
 
   test('renders recipe card with label and calories', () => {
-    render(<RecipeCard recipe={recipe} />);
+    render(
+      <MemoryRouter>
+        <RecipeCard recipe={recipe} />
+      </MemoryRouter>
+    );
 
     const labelElement = screen.getByTestId('recipe-label');
     const caloriesElement = screen.getByTestId('recipe-calories');
@@ -65,7 +93,11 @@ describe('RecipeCard', () => {
   });
 
   test('renders non-favorite icon for non-favorite recipe', () => {
-    render(<RecipeCard recipe={recipe} />);
+    render(
+      <MemoryRouter>
+        <RecipeCard recipe={recipe} />
+      </MemoryRouter>
+    );
 
     const favoriteIcon = screen.getByLabelText('add to favorites');
 
@@ -83,7 +115,12 @@ describe('RecipeCard', () => {
       toggleFavorite: toggleFavoriteMock,
     });
 
-    render(<RecipeCard recipe={recipe} />);
+    const history = createMemoryHistory();
+    render(
+      <MemoryRouter>
+        <RecipeCard recipe={recipe} />
+      </MemoryRouter>
+    );
 
     const favoriteIcon = screen.getByLabelText('add to favorites');
     fireEvent.click(favoriteIcon);
