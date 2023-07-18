@@ -10,6 +10,7 @@ import {
 import { Favorite } from '@mui/icons-material';
 import { useAuthentication } from './AuthUtils';
 import { useRecipeContext, Recipe } from '../context/RecipeContext';
+import { Link } from 'react-router-dom';
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -34,6 +35,10 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
 
   const roundedCalories = Math.round(parseFloat(calories));
 
+  // Extract the recipe ID from the URI
+  const uriParts = uri.split('#');
+  const recipeId = encodeURIComponent(uriParts[1]); // Encode the URI component
+
   return (
     <Box data-testid="recipe-card">
       <CardMedia component="img" height="194" src={image} alt={label} />
@@ -49,6 +54,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
         <IconButton aria-label="add to favorites" onClick={handleFavoriteClick}>
           {isFavorite ? <Favorite color="error" /> : <Favorite />}
         </IconButton>
+        <Link to={`/recipe/${recipeId}`}>View Details</Link>
       </CardActions>
     </Box>
   );

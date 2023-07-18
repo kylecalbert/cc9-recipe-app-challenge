@@ -11,12 +11,23 @@ const APP_ID = process.env.REACT_APP_APP_ID;
 const APP_KEY = process.env.REACT_APP_APP_KEY;
 
 ///These interfaces define the structure of recipe objects and favorite recipe objects, respectively.
+export interface Ingredient {
+  text: string;
+  quantity: number;
+  measure: string;
+  food: string;
+  weight: number;
+  foodCategory: string;
+  foodId: string;
+  image: string;
+}
+
 export interface Recipe {
   recipe: {
     label: string;
     calories: string;
     image: string;
-    ingredients: string[];
+    ingredients: Ingredient[];
     uri: string;
   };
 }
@@ -25,7 +36,7 @@ export interface FavoriteRecipe {
   label: string;
   calories: string;
   image: string;
-  ingredients: string[];
+  ingredients: Ingredient[];
   uri: string;
 }
 
