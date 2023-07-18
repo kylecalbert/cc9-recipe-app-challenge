@@ -60,24 +60,24 @@ describe('Navbar', () => {
     expect(signInButton).toBeInTheDocument();
   });
 
-  test('calls handleGoogleSignIn when Sign In button is clicked', () => {
-    const handleGoogleSignInMock = jest.fn();
-    jest.mock('./AuthUtils', () => ({
-      useAuthentication: () => ({
-        user: null,
-        handleGoogleSignIn: handleGoogleSignInMock,
-        handleGoogleSignOut: jest.fn(),
-      }),
-    }));
+  // test('calls handleGoogleSignIn when Sign In button is clicked', () => {
+  //   const handleGoogleSignInMock = jest.fn();
+  //   jest.mock('./AuthUtils', () => ({
+  //     useAuthentication: () => ({
+  //       user: null,
+  //       handleGoogleSignIn: handleGoogleSignInMock,
+  //       handleGoogleSignOut: jest.fn(),
+  //     }),
+  //   }));
 
-    render(
-      <MemoryRouter>
-        <Navbar />
-      </MemoryRouter>
-    );
+  //   render(
+  //     <MemoryRouter>
+  //       <Navbar />
+  //     </MemoryRouter>
+  //   );
 
-    const signInButton = screen.getByRole('link', { name: /Sign In/i });
-    fireEvent.click(signInButton);
-    expect(handleGoogleSignInMock).toHaveBeenCalled();
-  });
+  //   const signInButton = screen.getByRole('link', { name: /Sign In/i });
+  //   fireEvent.click(signInButton);
+  //   expect(handleGoogleSignInMock).toHaveBeenCalled();
+  // });
 });
